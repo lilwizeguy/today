@@ -1,0 +1,23 @@
+{
+  "name": "today",
+  "version": "1.0.0",
+  "description": "A dashboard app to keep you up to date",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "keywords": [
+    "today",
+    "dashboard",
+    "news",
+    "weather"
+  ],
+  "author": "Manny",
+  "license": "MIT",
+  "dependencies": {
+    "batch-request": "^0.1.4",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "morgan": "^1.9.0"
+  }
+}
