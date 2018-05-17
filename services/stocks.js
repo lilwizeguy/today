@@ -39,6 +39,11 @@ class StocksAPI {
     static parseResponse(response) {
         const jsonResponse = JSON.parse(response);
         const quotes = jsonResponse["Stock Quotes"];
+
+        if (quotes == null) {
+            return [];
+        }
+
         const body = quotes.map((val) => {
             const parsedVal = {
                 "symbol" : val["1. symbol"],
