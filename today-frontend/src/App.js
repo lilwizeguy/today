@@ -62,6 +62,22 @@ class StocksCard extends Component {
 
 class NotesCard extends Component {
 
+  
+  updateNotes(html) {
+    localStorage.setItem("notes", html);
+  }
+
+  loadNotes() {
+    const notes = localStorage.getItem("notes");
+
+    if (!notes) {
+      return "";
+    }
+
+    return notes;
+  }
+
+
 
   render() {
     return (
@@ -70,8 +86,9 @@ class NotesCard extends Component {
         <div class="col s12 m6 ">
           <ul class="collection with-header z-depth-1">
             <li class="collection-header"><h4>Notes</h4></li>
-      {/* <Editor onChange={this.handleChange.bind(this)} /> */}
-            <Editor />
+            <li class="collection-item left-align">
+              <Editor defaultContent={this.loadNotes()} onChange={this.updateNotes.bind(this)} />
+            </li>
           </ul>
         </div>
         <div class="col s12 m3"></div>
@@ -135,12 +152,15 @@ class NewsCard extends Component {
     }
 
 
+    const linkStyle = {
+      fontWeight : "bold",
+    };
 
     const stories = this.state.dataSource.map(value => {
         return <li class="collection-item left-align">
-                <a href={value.url}>{value.title}</a>
-                <p>{value.sourceName}</p>
-                </li>;
+                <a style = {linkStyle} class="blue-text" href={value.url}>{value.title}</a>
+                <p> <span style = {linkStyle} class="grey-text">{value.sourceName} - </span> {value.description}</p>
+              </li>;
     });
 
     return (
@@ -161,12 +181,13 @@ class NewsCard extends Component {
 class App extends Component {
   render() {
     return (
-      <div className="App">
-
-        <NotesCard />
-        <StocksCard />
-        <WeatherCard />
-        <NewsCard />
+      <div>
+        <div className="App grey lighten-5">
+          <NotesCard />
+          <StocksCard />
+          <WeatherCard />
+          <NewsCard />
+        </div>
       </div>
     );
   }

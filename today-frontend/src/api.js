@@ -27,7 +27,7 @@ function getNews(next) {
         console.log(response);
         return response.json();
     }).then((parsedJson) => {
-        next(parsedJson.data);
+        next(parsedJson.data.slice(0, 5));
     });
 }
 
