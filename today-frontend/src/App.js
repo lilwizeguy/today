@@ -46,7 +46,7 @@ class StocksCard extends Component {
     const chartData = {
       datasets: [
         {
-          // label: 'My First dataset',
+          label: 'My First dataset',
           fill: false,
           lineTension: 0.1,
           backgroundColor: 'rgba(75,192,192,0.4)',
@@ -65,7 +65,7 @@ class StocksCard extends Component {
           pointRadius: 1,
           pointHitRadius: 10,
           data: [65, 59, 80, 81, 56, 55, 40],
-        }
+        },
       ],
     };
 
@@ -85,12 +85,16 @@ class StocksCard extends Component {
       height : "80pt",
     }
 
+    const boldStyle = {
+      fontWeight : 'bold',
+    }
+
     const stocks = this.state.dataSource.map(value => {
       return (<li class="collection-item" style={heightStyle}>
           
           <div class="col s12 m3">
-            <h5>{value.symbol}</h5> 
-            <p>{value.price}</p>
+            <h6 class="left-align">{value.symbol}</h6> 
+            <h5 class="left-align" style={boldStyle}>{value.price}</h5>
           </div>
           <div class="col s12 m9">
             <Line  ref={value.symbol} data={chartData} options={options} height={80}/>
@@ -103,7 +107,7 @@ class StocksCard extends Component {
         <div class="col s12 m3"></div>
         <div class="col s12 m6 ">
         <ul class="collection with-header z-depth-1">
-            <li class="collection-header"><h4>Stocks</h4></li>
+            <li class="collection-header"><h4 class="left-align" style={boldStyle}>Stocks</h4></li>
             {stocks}
 
         </ul>
@@ -115,6 +119,7 @@ class StocksCard extends Component {
 }
 
 class NotesCard extends Component {
+
 
   
   updateNotes(html) {
@@ -134,12 +139,17 @@ class NotesCard extends Component {
 
 
   render() {
+
+    const boldStyle = {
+      fontWeight : 'bold',
+    }
+
     return (
       <div class="row">
         <div class="col s12 m3"></div>
         <div class="col s12 m6 ">
           <ul class="collection with-header z-depth-1">
-            <li class="collection-header"><h4>Notes</h4></li>
+            <li class="collection-header"><h4 class="left-align" style={boldStyle}>Notes</h4></li>
             <li class="collection-item left-align">
               <Editor defaultContent={this.loadNotes()} onChange={this.updateNotes.bind(this)} />
             </li>
@@ -154,12 +164,17 @@ class NotesCard extends Component {
 class WeatherCard extends Component {
 
   render() {
+
+    const boldStyle = {
+      fontWeight : "bold",
+    };
+    
     return (
       <div class="row">
         <div class="col s12 m3"></div>
         <div class="col s12 m6 ">
         <ul class="collection with-header z-depth-1">
-            <li class="collection-header"><h4>Weather</h4></li>
+            <li class="collection-header"><h4 class="left-align" style={boldStyle}>Weather</h4></li>
             <li class="collection-item">Temperature</li>
             <li class="collection-item">Air Pressure</li>
 
