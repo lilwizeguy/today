@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Editor from 'react-pell';
+import {Doughnut, Line} from 'react-chartjs-2'
 
 import {getStocks, getWeather, getNews}  from './api'
 
@@ -40,10 +41,62 @@ class StocksCard extends Component {
       return <h3>Stocks Loading...</h3>
     }
 
-    const stocks = this.state.dataSource.map(value => {
-      return <li class="collection-item">{value.symbol} {value.price}</li>;
-    });
 
+
+    const chartData = {
+      datasets: [
+        {
+          // label: 'My First dataset',
+          fill: false,
+          lineTension: 0.1,
+          backgroundColor: 'rgba(75,192,192,0.4)',
+          borderColor: 'rgba(75,192,192,1)',
+          borderCapStyle: 'butt',
+          borderDash: [],
+          borderDashOffset: 0.0,
+          borderJoinStyle: 'miter',
+          pointBorderColor: 'rgba(75,192,192,1)',
+          pointBackgroundColor: '#fff',
+          pointBorderWidth: 1,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+          pointHoverBorderColor: 'rgba(220,220,220,1)',
+          pointHoverBorderWidth: 2,
+          pointRadius: 1,
+          pointHitRadius: 10,
+          data: [65, 59, 80, 81, 56, 55, 40],
+        }
+      ],
+    };
+
+    const options = {
+      legend: {
+         display: false
+         
+      },
+      tooltips: {
+         enabled: false
+      },
+      responsive:true,
+      maintainAspectRatio: false,
+    };
+
+    const heightStyle = {
+      height : "80pt",
+    }
+
+    const stocks = this.state.dataSource.map(value => {
+      return (<li class="collection-item" style={heightStyle}>
+          
+          <div class="col s12 m3">
+            <h5>{value.symbol}</h5> 
+            <p>{value.price}</p>
+          </div>
+          <div class="col s12 m9">
+            <Line  ref={value.symbol} data={chartData} options={options} height={80}/>
+          </div>
+      </li>);
+    });
 
     return (
       <div class="row">
@@ -52,6 +105,7 @@ class StocksCard extends Component {
         <ul class="collection with-header z-depth-1">
             <li class="collection-header"><h4>Stocks</h4></li>
             {stocks}
+
         </ul>
         </div>
         <div class="col s12 m3"></div>
@@ -152,14 +206,14 @@ class NewsCard extends Component {
     }
 
 
-    const linkStyle = {
+    const boldStyle = {
       fontWeight : "bold",
     };
 
     const stories = this.state.dataSource.map(value => {
         return <li class="collection-item left-align">
-                <a style = {linkStyle} class="blue-text" href={value.url}>{value.title}</a>
-                <p> <span style = {linkStyle} class="grey-text">{value.sourceName} - </span> {value.description}</p>
+                <a style = {boldStyle} class="blue-text" href={value.url}>{value.title}</a>
+                <p> <span style = {boldStyle} class="grey-text">{value.sourceName} - </span> {value.description}</p>
               </li>;
     });
 
@@ -168,7 +222,7 @@ class NewsCard extends Component {
         <div class="col s12 m3"></div>
         <div class="col s12 m6 ">
         <ul class="collection with-header z-depth-1">
-          <li class="collection-header"><h4>News</h4></li>
+          <li class="collection-header left-align"><h4 style={boldStyle}>News</h4></li>
           {stories}
         </ul>
         </div>
