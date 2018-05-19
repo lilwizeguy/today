@@ -103,17 +103,13 @@ class StocksCard extends Component {
     });
 
     return (
-      <div class="row">
-        <div class="col s12 m3"></div>
-        <div class="col s12 m6 ">
-        <ul class="collection with-header z-depth-1">
-            <li class="collection-header"><h4 class="left-align" style={boldStyle}>Stocks</h4></li>
-            {stocks}
+        <div>
+          <ul class="collection with-header z-depth-1">
+              <li class="collection-header"><h4 class="left-align" style={boldStyle}>Stocks</h4></li>
+              {stocks}
 
-        </ul>
+          </ul>
         </div>
-        <div class="col s12 m3"></div>
-      </div>
     );
   }
 }
@@ -145,9 +141,7 @@ class NotesCard extends Component {
     }
 
     return (
-      <div class="row">
-        <div class="col s12 m3"></div>
-        <div class="col s12 m6 ">
+        <div>
           <ul class="collection with-header z-depth-1">
             <li class="collection-header"><h4 class="left-align" style={boldStyle}>Notes</h4></li>
             <li class="collection-item left-align">
@@ -155,8 +149,6 @@ class NotesCard extends Component {
             </li>
           </ul>
         </div>
-        <div class="col s12 m3"></div>
-      </div>
     );
   }
 }
@@ -170,17 +162,12 @@ class WeatherCard extends Component {
     };
     
     return (
-      <div class="row">
-        <div class="col s12 m3"></div>
-        <div class="col s12 m6 ">
+      <div>
         <ul class="collection with-header z-depth-1">
             <li class="collection-header"><h4 class="left-align" style={boldStyle}>Weather</h4></li>
             <li class="collection-item">Temperature</li>
             <li class="collection-item">Air Pressure</li>
-
         </ul>
-        </div>
-        <div class="col s12 m3"></div>
       </div>
     )
   }
@@ -233,31 +220,49 @@ class NewsCard extends Component {
     });
 
     return (
-      <div class="row">
-        <div class="col s12 m3"></div>
-        <div class="col s12 m6 ">
+      <div>
         <ul class="collection with-header z-depth-1">
           <li class="collection-header left-align"><h4 style={boldStyle}>News</h4></li>
           {stories}
         </ul>
-        </div>
-        <div class="col s12 m3"></div>
       </div>
-    )
+    );
+  }
+}
+
+class Navbar extends Component {
+
+  render() {
+    return (       <nav class="grey lighten-4">
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo teal-text">Today</a>   
+    </div>
+  </nav> 
+);
   }
 }
 
 class App extends Component {
   render() {
     return (
-      <div>
         <div className="App grey lighten-5">
-          <NotesCard />
-          <StocksCard />
-          <WeatherCard />
-          <NewsCard />
+
+          <Navbar />
+
+          <div class="row">  
+            <div class="col s12 m5">      
+              <StocksCard />
+              <WeatherCard />       
+              <NotesCard />
+
+            </div>
+            <div class="col s12 m7">
+            <NewsCard />
+            </div>
+          </div>
+        
         </div>
-      </div>
+
     );
   }
 }
