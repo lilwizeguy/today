@@ -34,13 +34,29 @@ router.get('/weather', (req, res, next) => {
 });
 
 
+router.get('/stocks/daily/:stockId', (req, res, next) => {
+    const symbol = req.params.stockId;
+    const timeseriesUrl = StocksAPI.timeseriesUrl(symbol);
+    console.log(symbol);
+
+    request.get(timeseriesUrl, null, (error, response, body) => {
+        const parsedBody = StocksAPI.parseTimeseriesResponse(body);
+        if (error) {
+            res.json(responseFormatter.failedResponse(500, error));
+        }
+        else {
+            res.json(responseFormatter.successfulResponse(parsedBody));
+        }
+    });
+});
+
 router.get('/stocks', (req, res, next) => {
 
     const stocks = ['AAPL', 'GOOG', 'FB'];
     const batchUrl = StocksAPI.batchUrl(stocks);
 
     request.get(batchUrl, null, (error, response, body) => { 
-        const parsedBody = StocksAPI.parseResponse(body);
+        const parsedBody = StocksAPI.parseBatchResponse(body);
         if (error) {
             res.json(responseFormatter.failedResponse(500, error));
         }

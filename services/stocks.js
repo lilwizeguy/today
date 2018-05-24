@@ -14,6 +14,13 @@ class StocksAPI {
         return 'apikey=N29HMAS2M2E3DT7Q';
     }
 
+    // https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=AAPL&apikey=N29HMAS2M2E3DT7Q
+    // https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=15min&apikey=demo
+    static timeseriesUrl(symbol) {
+        const res = StocksAPI.baseUrl() + 'query?function=TIME_SERIES_DAILY&symbol=' + symbol + '&' + StocksAPI.getAPIKey();
+        return res;
+    }
+
     static batchUrl(symbols) {
         const symbolString = symbols.join();
         const res = StocksAPI.baseUrl() + 'query?function=BATCH_STOCK_QUOTES&symbols=' + symbolString + '&' + StocksAPI.getAPIKey();
@@ -36,7 +43,36 @@ class StocksAPI {
     //     }
     // ]
 
-    static parseResponse(response) {
+    static parseTimeseriesResponse(response) {
+        const jsonResponse = JSON.parse(response);
+        const metadata = jsonResponse["Meta Data"];
+        const quotes = jsonResponse["Time Series (Daily)"];
+
+        if (quotes == null) {
+            return [];
+        }
+
+
+        const body = [];
+
+        for (let date in quotes) {
+
+            const payload = {
+                "date" : date,
+                "price" : quotes[date]["4. close"],
+            } 
+            body.push(payload);
+        }
+
+        const res = {};
+        res["timeseries"] = body;
+        res["symbol"] = metadata["2. Symbol"];
+        res["price"] = body[0]["price"];
+
+        return res;
+    }
+
+    static parseBatchResponse(response) {
         const jsonResponse = JSON.parse(response);
         const quotes = jsonResponse["Stock Quotes"];
 
@@ -58,6 +94,8 @@ class StocksAPI {
         return body;
     }
 }
+
+console.log(StocksAPI.timeseriesUrl('AAPL'));
 
 // console.log(StocksAPI.batchUrl(['AAPL', 'GOOG']));
 module.exports = StocksAPI;

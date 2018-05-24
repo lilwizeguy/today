@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Editor from 'react-pell';
-import {Doughnut, Line} from 'react-chartjs-2'
+import {Doughnut, Line, Bar} from 'react-chartjs-2'
 
 import {getStocks, getWeather, getNews}  from './api'
+const boldStyle = {
+  fontWeight : "bold",
+};
 
 class StocksCard extends Component {
 
-  
   constructor(props) {
     
     super();
@@ -17,7 +19,6 @@ class StocksCard extends Component {
       dataSource : [],
       isLoading : true,
     };
-
   }
 
   fetchStocks() {
@@ -32,7 +33,32 @@ class StocksCard extends Component {
   }
 
   componentWillMount() {
-    this.fetchStocks();
+   // this.fetchStocks();
+
+    const outerState = this;
+    fetch(this.props.dataUrl).then((response)=> {
+      return response.json();
+    }).then((parsedJson)=> {
+      parsedJson = parsedJson.data;
+
+      console.log("Parsed json");
+      console.log(parsedJson);
+
+      const timeData = parsedJson.timeseries.map((val)=> {
+
+        return parseFloat(val["price"]);
+      });
+
+      console.log(timeData);
+
+      outerState.setState({
+        timeseries : timeData,
+        symbol : parsedJson.symbol,
+        price : parsedJson.price,
+        isLoading : false,
+      });
+    });
+
   }
 
   render() {
@@ -41,38 +67,73 @@ class StocksCard extends Component {
       return <h3>Stocks Loading...</h3>
     }
 
+    console.log("Rendeinr")
+    console.log(this.state.timeseries)
 
+
+    const tmpLabels = [];
+
+    const shaveLength = 20;
+    for (let i = 0; i < shaveLength; i++) {
+      tmpLabels.push("");
+    }
 
     const chartData = {
+      labels: tmpLabels,
       datasets: [
         {
-          label: 'My First dataset',
+       //   label: 'My First dataset',
           fill: false,
           lineTension: 0.1,
           backgroundColor: 'rgba(75,192,192,0.4)',
           borderColor: 'rgba(75,192,192,1)',
-          borderCapStyle: 'butt',
-          borderDash: [],
-          borderDashOffset: 0.0,
-          borderJoinStyle: 'miter',
-          pointBorderColor: 'rgba(75,192,192,1)',
-          pointBackgroundColor: '#fff',
-          pointBorderWidth: 1,
-          pointHoverRadius: 5,
-          pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-          pointHoverBorderColor: 'rgba(220,220,220,1)',
-          pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: [65, 59, 80, 81, 56, 55, 40],
+          data : this.state.timeseries.slice(0, shaveLength),
+         // data : this.state.timeseries.slice(0, 10),
+        // data : [65, 100, 80, 81, 56, 55, 40],
         },
       ],
     };
+
+    // const chartData = {
+    //   datasets: [
+    //     {
+    //       label: 'My First dataset',
+    //       fill: false,
+    //       lineTension: 0.1,
+    //       backgroundColor: 'rgba(75,192,192,0.4)',
+    //       borderColor: 'rgba(75,192,192,1)',
+    //       borderCapStyle: 'butt',
+    //       borderDash: [],
+    //       borderDashOffset: 0.0,
+    //       borderJoinStyle: 'miter',
+    //       pointBorderColor: 'rgba(75,192,192,1)',
+    //       pointBackgroundColor: '#fff',
+    //       pointBorderWidth: 1,
+    //       pointHoverRadius: 5,
+    //       pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+    //       pointHoverBorderColor: 'rgba(220,220,220,1)',
+    //       pointHoverBorderWidth: 2,
+    //       pointRadius: 1,
+    //       pointHitRadius: 10,
+    //       data : this.state.timeseries.slice(0, 10),
+    //      // data : [65, 59, 80, 81, 56, 55, 40],
+    //     },
+    //   ],
+    // };
 
     const options = {
       legend: {
          display: false
          
+      },
+      scales : {
+        yAxes: [{
+          ticks: {
+              beginAtZero:false,
+              // min: 180,
+              // max: 190    
+          }
+        }]
       },
       tooltips: {
          enabled: false
@@ -89,28 +150,45 @@ class StocksCard extends Component {
       fontWeight : 'bold',
     }
 
-    const stocks = this.state.dataSource.map(value => {
-      return (<li class="collection-item" style={heightStyle}>
+
+    // const stocks = this.state.dataSource.map(value => {
+    //   return (<li class="collection-item" style={heightStyle}>
           
-          <div class="col s12 m3">
-            <h6 class="left-align">{value.symbol}</h6> 
-            <h5 class="left-align" style={boldStyle}>{value.price}</h5>
-          </div>
-          <div class="col s12 m9">
-            <Line  ref={value.symbol} data={chartData} options={options} height={80}/>
-          </div>
-      </li>);
-    });
+    //       <div class="col s12 m3">
+    //         <h6 class="left-align">{value.symbol}</h6> 
+    //         <h5 class="left-align" style={boldStyle}>{value.price}</h5>
+    //       </div>
+    //       <div class="col s12 m9">
+    //         <Line  ref={value.symbol} data={chartData} options={options} height={80}/>
+    //       </div>
+    //   </li>);
+    // });
 
-    return (
-        <div>
-          <ul class="collection with-header z-depth-1">
-              <li class="collection-header"><h4 class="left-align" style={boldStyle}>Stocks</h4></li>
-              {stocks}
+    const symbol = this.state.symbol;
+    const price = this.state.price;
 
-          </ul>
+    console.log(symbol);
+
+    return (<li class="collection-item" style={heightStyle}>   
+        <div class="col s12 m3">
+          <h6 class="left-align">{symbol}</h6> 
+          <h5 class="left-align" style={boldStyle}>{price}</h5>
         </div>
-    );
+        <div class="col s12 m9">
+          <Line ref={symbol} data={chartData} options={options} height={80}/>
+        </div>
+      </li>);
+
+        // <div>
+        //   <ul class="collection with-header z-depth-1">
+        //       <li class="collection-header"><h4 class="left-align" style={boldStyle}>Stocks</h4></li>
+        //       {stocks}
+
+        //   </ul>
+        // </div>
+
+
+
   }
 }
 
@@ -153,7 +231,61 @@ class NotesCard extends Component {
   }
 }
 
-class WeatherCard extends Component {
+
+class StocksCardContainer extends Component {
+  
+  constructor() {
+    super();
+
+    this.state = {
+      dataSource : [],
+    };
+
+  }
+
+  componentDidMount() {
+    this.getStockUrls();
+  }
+
+  getStockUrls() {
+    const stocks = ['AAPL', 'GOOG', 'FB'];
+
+    const urls = stocks.map((val)=> {
+      return 'http://localhost:5000/api/stocks/daily/' + val;
+    });
+
+    console.log(urls);
+
+    this.setState({
+      dataSource : urls
+    });
+
+  }
+
+
+  render() {
+
+    
+
+    const stocks = this.state.dataSource.map((url) => {
+        return <StocksCard dataUrl={url} />
+    }); 
+
+    console.log("The size of stocks is " + stocks.length);
+
+    return (
+      <div>
+        <ul class="collection with-header z-depth-1">
+            <li class="collection-header"><h4 class="left-align" style={boldStyle}>Stocks</h4></li>
+            {stocks}
+        </ul>
+      </div>
+  );
+  }
+
+}
+
+class WeatherCardContainer extends Component {
 
   render() {
 
@@ -214,7 +346,7 @@ class NewsCard extends Component {
 
     const stories = this.state.dataSource.map(value => {
         return <li class="collection-item left-align">
-                <a style = {boldStyle} class="blue-text" href={value.url}>{value.title}</a>
+                <a style = {boldStyle} class="teal-text" href={value.url}>{value.title}</a>
                 <p> <span style = {boldStyle} class="grey-text">{value.sourceName} - </span> {value.description}</p>
               </li>;
     });
@@ -251,8 +383,8 @@ class App extends Component {
 
           <div class="row">  
             <div class="col s12 m5">      
-              <StocksCard />
-              <WeatherCard />       
+              <StocksCardContainer />
+              <WeatherCardContainer />       
               <NotesCard />
 
             </div>
