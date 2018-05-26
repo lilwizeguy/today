@@ -18,6 +18,18 @@ class WeatherAPI {
         return 'c179830840e9af75b72aa41017064ab2';
     }
 
+    static timseriesUrl(lat, lon) {
+        const params = {
+            "lat" : lat,
+            "lon" : lon,
+            "APPID" : WeatherAPI.getAPIKey(),
+        }
+
+        const paramsString = params;
+        const res = WeatherAPI.baseUrl() + 'weather?' + querystring.stringify(params);
+        return res;
+    }
+
     static weatherUrl(lat, lon) {
 
         const params = {

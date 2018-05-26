@@ -26,3 +26,11 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.boldStyle {
+  font-weight : bold;
+};
+
+.cardHeight {
+  height : 80pt;
+}
