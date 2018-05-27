@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import LoadingIcon from '../LoadingIcon';
 import {Line} from 'react-chartjs-2';
-import {getStocks} from '../api';
+import {getStocks, timeseriesRequest} from './api';
 
 class StocksCard extends Component {
 
@@ -11,53 +11,26 @@ class StocksCard extends Component {
       super();
       
       this.state = {
-        dataSource : [],
         isLoading : true,
       };
     }
   
-    fetchStocks() {
-      const outer = this;
-      getStocks((response) => {
-        console.log(response);
-        outer.setState({
-          dataSource : response,
-          isLoading : false,
-        })
-      })
-    }
-  
     componentWillMount() {
-     // this.fetchStocks();
-  
+
       const outerState = this;
-      fetch(this.props.dataUrl).then((response)=> {
-        return response.json();
-      }).then((parsedJson)=> {
-        parsedJson = parsedJson.data;
-  
-        const timeData = parsedJson.timeseries.map((val)=> {
-  
-          return parseFloat(val["price"]);
-        });
-  
-        const labelData = parsedJson.timeseries.map((val)=> {
-          return val["date"];
-        });
-  
-        console.log(labelData);
-  
-        const timeDataChronological = timeData.reverse();
+
+      timeseriesRequest(this.props.dataUrl, (timeseriesResponse)  => {
+        const {timeDataChronological, labelData, symbol, price} = timeseriesResponse;
   
         outerState.setState({
           timeseries : timeDataChronological,
           labels : labelData,
-          symbol : parsedJson.symbol,
-          price : parsedJson.price,
+          symbol : symbol,
+          price : price,
           isLoading : false,
         });
-      });
-  
+      });  
+
     }
   
     render() {
@@ -68,30 +41,18 @@ class StocksCard extends Component {
           </li>);
       }
   
-  
-      var tmpLabels = [];
-  
-      const shaveLength = 20;
-      for (let i = 0; i < shaveLength; i++) {
-        tmpLabels.push("");
-      }
-  
-      //tmpLabels = this.state.labelData;
-      // console.log(tmpLabels);
-  
+
+      const {symbol, price, labels, timeseries } = this.state;
+
       const chartData = {
-        // labels: this.state.labels.slice(0, shaveLength),
-        labels: tmpLabels,
+        labels: labels,
         datasets: [
           {
-         //   label: 'My First dataset',
             fill: false,
             lineTension: 0.1,
             backgroundColor: 'rgba(75,192,192,0.4)',
             borderColor: 'rgba(75,192,192,1)',
-            data : this.state.timeseries.slice(0, shaveLength),
-           // data : this.state.timeseries.slice(0, 10),
-          // data : [65, 100, 80, 81, 56, 55, 40],
+            data : timeseries,
           },
         ],
       };
@@ -105,21 +66,16 @@ class StocksCard extends Component {
           yAxes: [{
             ticks: {
                 beginAtZero:false,
-                // min: 180,
-                // max: 190    
             }
           }]
         },
         tooltips: {
-           enabled: false
+           enabled: true
         },
         responsive:true,
         maintainAspectRatio: false,
       };
   
-      const symbol = this.state.symbol;
-      const price = this.state.price;
-    
       return (<li class="collection-item heightStyle">   
           <div class="col s12 m3">
             <h6 class="left-align">{symbol}</h6> 

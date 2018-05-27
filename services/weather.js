@@ -18,15 +18,16 @@ class WeatherAPI {
         return 'c179830840e9af75b72aa41017064ab2';
     }
 
-    static timseriesUrl(lat, lon) {
+    static timeseriesUrl(lat, lon) {
         const params = {
             "lat" : lat,
             "lon" : lon,
             "APPID" : WeatherAPI.getAPIKey(),
+            "units" : "imperial",
         }
 
         const paramsString = params;
-        const res = WeatherAPI.baseUrl() + 'weather?' + querystring.stringify(params);
+        const res = WeatherAPI.baseUrl() + 'forecast?' + querystring.stringify(params);
         return res;
     }
 
@@ -36,6 +37,7 @@ class WeatherAPI {
             "lat" : lat,
             "lon" : lon,
             "APPID" : WeatherAPI.getAPIKey(),
+            "units" : "imperial",
         }
 
         const paramsString = params;
@@ -56,14 +58,33 @@ class WeatherAPI {
 // "name":"Mountain View",
 // "cod":200}
 
-    static parseResponse(response) {
+    static parseTimeseriesResponse(response) {
         const val = JSON.parse(response);
-        
-        console.log(val);
-        
+
+        const weatherList = val["list"];
+
         const parsedVal = {
-            "weather" : null,
-            "main" : val["main"],
+            "now" : this.parseSingleResponse(weatherList[0]),
+            "timeseries" : weatherList.map((singleVal) => {
+                return this.parseSingleResponse(singleVal);
+            }),
+        }
+
+        return parsedVal;
+
+    }
+
+    static parseSingleResponse(val) {
+        const parsedVal = {
+            "weather" : {
+                "temp" : val["main"]["temp"],
+                "title" : val["weather"]["main"],
+                "description" : val["weather"]["description"],
+            },
+            "time" : {
+                "timestamp" : val["dt"],
+                "timestampLong" : val["dt_txt"],
+            },
             "location" : {
                 "coord" : val["coord"],
                 "name" : val["name"],
@@ -72,6 +93,13 @@ class WeatherAPI {
         };
 
         return parsedVal;
+    }
+
+    static parseResponse(response) {
+        const val = JSON.parse(response);
+                
+       return this.parseSingleResponse(val);
+        
     }
 }
 

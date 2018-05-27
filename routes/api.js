@@ -20,10 +20,11 @@ router.get('/weather', (req, res, next) => {
     };
 
 
-    const weatherUrl = WeatherAPI.weatherUrl(coordinates.lat, coordinates.lon);
+    const weatherUrl = WeatherAPI.timeseriesUrl(coordinates.lat, coordinates.lon);
+    console.log(weatherUrl);
 
     request.get(weatherUrl, (error, response, body) => {
-        const parsedBody = WeatherAPI.parseResponse(body);
+        const parsedBody = WeatherAPI.parseTimeseriesResponse(body);
         if (error) {
             res.json(responseFormatter.failedResponse(500, error));
         }

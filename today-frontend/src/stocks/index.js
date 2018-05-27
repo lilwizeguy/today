@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import StocksCard from './StocksCard';
+import {getStockUrls} from './api';
 
 class StocksCardContainer extends Component {
 
@@ -13,26 +14,17 @@ class StocksCardContainer extends Component {
   }
 
   componentDidMount() {
-    this.getStockUrls();
-  }
-
-  getStockUrls() {
-    const stocks = ['AAPL', 'GOOG', 'FB'];
-
-    const urls = stocks.map((val)=> {
-      return 'http://localhost:5000/api/stocks/daily/' + val;
-    });
+    const urls = getStockUrls();
 
     this.setState({
       dataSource : urls,
     });
-
   }
 
   render() {
 
     const stocks = this.state.dataSource.map((url) => {
-        return <StocksCard dataUrl={url} />
+        return <StocksCard key={url} dataUrl={url} />
     }); 
 
     return (<div>

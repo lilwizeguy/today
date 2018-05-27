@@ -24,19 +24,12 @@ app.use(cookieParser());
 const apiRoute = require('./routes/api');
 app.use('/api', apiRoute);
 
-// app.use(express.static(path.join(__dirname, 'cloud-notes-frontend/build')));
+app.use(express.static(path.join(__dirname, 'today-frontend/build')));
 
 /*
 // FOR REACT APPS
 app.get('*', function(req, res) {
-  console.log("Getting entries for default home");
-  // res.render('index');
-  // res.sendFile(path.resolve(__dirname, '/cloud-notes-frontend/public/index.html'));
-  // res.json('you did it');
-  console.log(path.join(__dirname+'/cloud-notes-frontend/build/index.html'));
-  res.sendFile(__dirname+'/cloud-notes-frontend/build/index.html');
-
-
+  res.sendFile(__dirname+'/today-frontend/build/index.html');
 });
 
 */
