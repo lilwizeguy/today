@@ -1,2 +1,2 @@
 # today
-dashboard of certain daily things
+A dashboard of certain daily things
