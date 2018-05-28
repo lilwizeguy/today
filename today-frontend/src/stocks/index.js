@@ -27,8 +27,9 @@ class StocksCardContainer extends Component {
         return <StocksCard key={url} dataUrl={url} />
     }); 
 
-    return (<div>
-        <ul class="collection with-header z-depth-1">
+    return (
+      <div>
+        <ul className="collection with-header z-depth-1">
             <li class="collection-header"><h5 class="left-align boldStyle">Stocks</h5></li>
             {stocks}
         </ul>

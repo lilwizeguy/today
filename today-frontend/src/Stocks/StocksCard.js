@@ -76,7 +76,8 @@ class StocksCard extends Component {
         maintainAspectRatio: false,
       };
   
-      return (<li class="collection-item heightStyle">   
+      return (
+        <li class="collection-item heightStyle">   
           <div class="col s12 m3">
             <h6 class="left-align">{symbol}</h6> 
             <h6 class="left-align boldStyle" >${price}</h6>

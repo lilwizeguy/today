@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import WeatherCard from './WeatherCard';
+import LoadingIcon from '../LoadingIcon';
 
 class WeatherCardContainer extends Component {
 
@@ -41,7 +42,7 @@ class WeatherCardContainer extends Component {
         fontWeight : "bold",
       };
   
-      var body = <h6>Getting Weather</h6>
+      var body = <LoadingIcon />
   
       if (this.state.hasLocation) {
         body = <WeatherCard lat={this.state.lat} lon={this.state.lon} />

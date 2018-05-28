@@ -1,7 +1,7 @@
 import {stringify} from 'querystring';
 
 function getBaseURL() {
-    return 'http://localhost:5000/api/';
+    return 'api/';
 }
 
 function getParams(lat, lon) {
