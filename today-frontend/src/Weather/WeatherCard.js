@@ -37,6 +37,11 @@ class WeatherCard extends Component {
 
     }
 
+    orangeColor() {
+      return 'rgba(255,179,0, 1)';
+    }
+
+
     render() {  
 
       if (this.state.isLoading) {
@@ -53,8 +58,8 @@ class WeatherCard extends Component {
           {
             fill: false,
             lineTension: 0.1,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
+            backgroundColor: this.orangeColor(),
+            borderColor: this.orangeColor(),
             data : timeseries,
           },
         ],

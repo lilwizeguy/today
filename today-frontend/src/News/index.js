@@ -30,7 +30,7 @@ class NewsCardContainer extends Component {
   
     render() {
   
-      let body = <LoadingIcon />;
+      let body = <LoadingIcon color="NEWS"/>;
 
 
       if (this.state.isLoading == false) {

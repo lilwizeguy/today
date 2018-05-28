@@ -42,7 +42,7 @@ class WeatherCardContainer extends Component {
         fontWeight : "bold",
       };
   
-      var body = <LoadingIcon />
+      var body = <LoadingIcon color="WEATHER" />
   
       if (this.state.hasLocation) {
         body = <WeatherCard lat={this.state.lat} lon={this.state.lon} />

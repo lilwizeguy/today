@@ -37,7 +37,7 @@ class StocksCard extends Component {
   
       if (this.state.isLoading) {
         return (<li class="collection-item heightStyle"> 
-          <LoadingIcon />
+          <LoadingIcon color="STOCKS" />
           </li>);
       }
   
