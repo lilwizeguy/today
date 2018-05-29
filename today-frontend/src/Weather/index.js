@@ -15,22 +15,27 @@ class WeatherCardContainer extends Component {
       }
     }
   
-    componentWillMount() {
+    componendDidMount() {
   
       const outerState = this;
   
+      
       if ("geolocation" in navigator) {
+        navigator.geolocation.get
         navigator.geolocation.getCurrentPosition((position) => {
          
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
-  
+          
+          //alert();
           outerState.setState({
             hasLocation : true,
             lat : lat,
             lon : lon,
           });
   
+        }, (err) => {
+       //   alert();
         });
       }
   
