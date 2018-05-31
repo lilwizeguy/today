@@ -22,7 +22,7 @@ class StocksCard extends Component {
       this.setState({
         isLoading : true,
       });
-      
+
       timeseriesRequest(this.props.dataUrl, (timeseriesResponse)  => {
         const {timeDataChronological, labelData, symbol, price} = timeseriesResponse;
   
@@ -101,7 +101,7 @@ class StocksCard extends Component {
             <h6 class="left-align boldStyle" >${parseFloat(price).toFixed(2)}</h6>
           </div>
           <div class="col s12 m9">
-            <Line ref={symbol} data={chartData} options={options} height={80}/>
+            <Line ref={symbol} data={chartData} options={options} height={130}/>
           </div>
         </li>);
   

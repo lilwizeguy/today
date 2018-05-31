@@ -24,6 +24,18 @@ function getStockUrls() {
     return urls;
 }
 
+function parseDate(val) {
+
+    const splicedDate = val.split('\t');
+    const components = splicedDate[0].split('-');
+    // console.log(components);
+
+    const month = components[1];
+    const day = components[2];
+
+    return month + '/' + day;
+}
+
 function timeseriesRequest(url, next, fail) {
     fetch(url).then((response)=> {
         return response.json();
@@ -36,14 +48,17 @@ function timeseriesRequest(url, next, fail) {
         });
 
         const labelData = parsedJson.timeseries.map((val)=> {
-            return val["date"];
+            return parseDate(val['date']);
         });
 
         const timeDataChronological = timeData.reverse();
+        const labelDataChronological = labelData.reverse();
+
+       // const labelDataChronological = new Array(timeDataChronological.length);
 
         const res =  {
             "timeDataChronological" : timeDataChronological,
-            "labelData" : labelData,
+            "labelData" : labelDataChronological,
             "price" : parsedJson.price,
             "symbol" : parsedJson.symbol,
         }

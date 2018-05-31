@@ -61,13 +61,17 @@ class WeatherAPI {
     static parseTimeseriesResponse(response) {
         const val = JSON.parse(response);
 
+        const LIMIT = 12;
+
         const weatherList = val["list"];
+
+        const allForecasts = weatherList.map((singleVal) => {
+            return this.parseSingleResponse(singleVal);
+        });
 
         const parsedVal = {
             "now" : this.parseSingleResponse(weatherList[0]),
-            "timeseries" : weatherList.map((singleVal) => {
-                return this.parseSingleResponse(singleVal);
-            }),
+            "timeseries" : allForecasts.slice(1, LIMIT),
         }
 
         return parsedVal;

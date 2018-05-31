@@ -44,6 +44,9 @@ class StocksAPI {
     // ]
 
     static parseTimeseriesResponse(response) {
+
+        const LIMIT = 30;
+
         const jsonResponse = JSON.parse(response);
         const metadata = jsonResponse["Meta Data"];
         const quotes = jsonResponse["Time Series (Daily)"];
@@ -52,8 +55,7 @@ class StocksAPI {
             return [];
         }
 
-
-        const body = [];
+        const allBody = [];
 
         for (let date in quotes) {
 
@@ -61,8 +63,10 @@ class StocksAPI {
                 "date" : date,
                 "price" : quotes[date]["4. close"],
             } 
-            body.push(payload);
+            allBody.push(payload);
         }
+
+        const body = allBody.slice(0, LIMIT);
 
         const res = {};
         res["timeseries"] = body;
@@ -95,8 +99,7 @@ class StocksAPI {
     }
 }
 
-console.log(StocksAPI.timeseriesUrl('AAPL'));
-
+// console.log(StocksAPI.timeseriesUrl('AAPL'));
 // console.log(StocksAPI.batchUrl(['AAPL', 'GOOG']));
 module.exports = StocksAPI;
 
