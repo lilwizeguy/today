@@ -71,7 +71,7 @@ class WeatherAPI {
 
         const parsedVal = {
             "now" : this.parseSingleResponse(weatherList[0]),
-            "timeseries" : allForecasts.slice(1, LIMIT),
+            "timeseries" : allForecasts.slice(0, LIMIT),
         }
 
         return parsedVal;

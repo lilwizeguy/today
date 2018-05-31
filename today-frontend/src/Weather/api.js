@@ -31,9 +31,12 @@ function getWeather(lat, lon, next, fail) {
             return val["weather"]["temp"];
         });
 
+        let count = 0;
         const timeseriesLabels = timeseries.map((val)=> {
             // return val["time"]["timestamp"];
-            return "";
+            const tmp =  count;
+            count+=3;
+            return '+' + tmp;
         });
 
         const res = {
