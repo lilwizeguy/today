@@ -1,2 +1,3 @@
 # today
-A dashboard of certain daily things
+A dashboard which shows news, stocks, weather, and notes.
+https://today.lilwizeguy.me
