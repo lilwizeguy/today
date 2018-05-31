@@ -13,7 +13,7 @@ function getParams(lat, lon) {
     return stringify(params);
 }
 
-function getWeather(lat, lon, next) {
+function getWeather(lat, lon, next, fail) {
     
     const params = getParams(lat, lon);
     fetch(getBaseURL() + 'weather?' + params).then((response)=> {
@@ -44,6 +44,9 @@ function getWeather(lat, lon, next) {
 
         console.log(res);
         next(res);
+    }).catch((err) => {
+        console.log(err.message);
+        fail(err.message);
     });
 }
 

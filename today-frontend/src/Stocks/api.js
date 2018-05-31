@@ -24,7 +24,7 @@ function getStockUrls() {
     return urls;
 }
 
-function timeseriesRequest(url, next) {
+function timeseriesRequest(url, next, fail) {
     fetch(url).then((response)=> {
         return response.json();
         }).then((parsedJson)=> {
@@ -49,6 +49,9 @@ function timeseriesRequest(url, next) {
         }
 
         next(res);
+    }).catch((err) => {
+        console.log(err.message);
+        fail(err.message);
     });
 }
 

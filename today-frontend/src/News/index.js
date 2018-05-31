@@ -42,7 +42,7 @@ class NewsCardContainer extends Component {
       return (
         <div>
           <ul class="collection with-header z-depth-1">
-            <li class="collection-header left-align"><h5 className="boldStyle">News</h5></li>
+            <li class="collection-header left-align blue white-text"><h5 className="boldStyle">News</h5></li>
             {body}
           </ul>
         </div>

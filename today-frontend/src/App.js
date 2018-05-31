@@ -13,7 +13,6 @@ class App extends Component {
   render() {
     return (
         <div className="App grey lighten-5">
-          <Navbar />
           <div class="row">  
             <div class="col s12 m5">      
               <StocksCardContainer />

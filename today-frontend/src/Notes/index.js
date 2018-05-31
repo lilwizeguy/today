@@ -23,7 +23,7 @@ class NotesCard extends Component {
       return (
           <div>
             <ul class="collection with-header z-depth-1">
-              <li class="collection-header"><h5 class="left-align boldStyle">Notes</h5></li>
+              <li class="collection-header teal white-text"><h5 class="left-align boldStyle">Notes</h5></li>
               <li class="collection-item left-align">
                 <Editor defaultContent={this.loadNotes()} onChange={this.updateNotes.bind(this)} />
               </li>

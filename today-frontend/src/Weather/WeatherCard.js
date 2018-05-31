@@ -5,6 +5,7 @@ import LoadingIcon from '../LoadingIcon';
 import '../App.css';
 
 import {getWeather} from './api';
+import ErrorCard from '../ErrorCard';
 
 
 class WeatherCard extends Component {
@@ -23,8 +24,13 @@ class WeatherCard extends Component {
           labels : timeseriesLabels,
           timeseries : timeseriesValues,
           isLoading : false,
+          err : false,
         });
-
+      }, (error) => {
+        this.setState({
+          err : true,
+          isLoading : false,
+        })
       });
     }
 
@@ -33,6 +39,7 @@ class WeatherCard extends Component {
 
       this.state = {
         isLoading : true,
+        err : true,
       }
 
     }
@@ -45,12 +52,15 @@ class WeatherCard extends Component {
     render() {  
 
       if (this.state.isLoading) {
-        return <LoadingIcon />;
+        return <LoadingIcon color="WEATHER"/>;
+      }
+
+      if (this.state.err) {
+        const message = "Unable to display weather.  Please try again";        
+        return <ErrorCard color="orange" message={message}/>;
       }
 
       const {currentWeather, labels, timeseries} = this.state;
-
-      console.log(this.state)
 
       const chartData = {
         labels: labels,

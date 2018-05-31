@@ -3,6 +3,7 @@ import '../App.css';
 import LoadingIcon from '../LoadingIcon';
 import {Line} from 'react-chartjs-2';
 import {getStocks, timeseriesRequest} from './api';
+import ErrorCard from '../ErrorCard';
 
 class StocksCard extends Component {
 
@@ -14,11 +15,14 @@ class StocksCard extends Component {
         isLoading : true,
       };
     }
-  
-    componentWillMount() {
 
+
+    loadStocks() {
       const outerState = this;
-
+      this.setState({
+        isLoading : true,
+      });
+      
       timeseriesRequest(this.props.dataUrl, (timeseriesResponse)  => {
         const {timeDataChronological, labelData, symbol, price} = timeseriesResponse;
   
@@ -29,8 +33,18 @@ class StocksCard extends Component {
           price : price,
           isLoading : false,
         });
+      }, (error) => {
+        this.setState({
+          err : true,
+          isLoading : false,
+        })
       });  
 
+    }
+  
+    componentWillMount() {
+
+      this.loadStocks();
     }
   
     render() {
@@ -41,6 +55,10 @@ class StocksCard extends Component {
           </li>);
       }
   
+      if (this.state.err) {
+        const message = "Unable to display stock information.  Please try again.";       
+        return <ErrorCard color="black" message={message} onTryAgain={this.loadStocks.bind(this)}/>
+      }
 
       const {symbol, price, labels, timeseries } = this.state;
 
@@ -50,8 +68,8 @@ class StocksCard extends Component {
           {
             fill: false,
             lineTension: 0.1,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
+            backgroundColor: 'rgba(117,117,117, 1)',
+            borderColor: 'rgba(117,117,117, 1)',
             data : timeseries,
           },
         ],
@@ -80,7 +98,7 @@ class StocksCard extends Component {
         <li class="collection-item heightStyle">   
           <div class="col s12 m3">
             <h6 class="left-align">{symbol}</h6> 
-            <h6 class="left-align boldStyle" >${price}</h6>
+            <h6 class="left-align boldStyle" >${parseFloat(price).toFixed(2)}</h6>
           </div>
           <div class="col s12 m9">
             <Line ref={symbol} data={chartData} options={options} height={80}/>
