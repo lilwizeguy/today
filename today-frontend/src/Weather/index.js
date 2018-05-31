@@ -32,7 +32,6 @@ class WeatherCardContainer extends Component {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
         
-        alert(lat);
         outerState.setState({
           permissionDenied : false,
           hasLocation : true,
