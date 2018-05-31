@@ -26,7 +26,7 @@ function parseResponse(response) {
     // const parsedJson = JSON.parse(response);
 
     const articles = response["articles"];
-    console.log(articles);
+    // console.log(articles);
     
     const articleArr = articles.map((value) => {
         const parsedVal = {

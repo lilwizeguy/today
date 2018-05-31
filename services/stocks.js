@@ -66,8 +66,10 @@ class StocksAPI {
             allBody.push(payload);
         }
 
-        const body = allBody.slice(0, LIMIT);
-
+        const body = allBody.sort((a, b)=> {
+            return new Date(b.date) - new Date(a.date);
+        }).slice(0, LIMIT);
+        
         const res = {};
         res["timeseries"] = body;
         res["symbol"] = metadata["2. Symbol"];
