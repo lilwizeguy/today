@@ -93,15 +93,21 @@ class StocksCard extends Component {
         responsive:true,
         maintainAspectRatio: false,
       };
+
+      const bottomStyle = {
+        margin : "0pt",
+      }
   
       return (
         <li class="collection-item heightStyle">   
-          <div class="col s12 m3">
-            <h6 class="left-align">{symbol}</h6> 
-            <h6 class="left-align boldStyle" >${parseFloat(price).toFixed(2)}</h6>
-          </div>
-          <div class="col s12 m9">
-            <Line ref={symbol} data={chartData} options={options} height={130}/>
+          <div class="row" style={bottomStyle}>
+            <div class="col s12 m3">
+              <h6 class="left-align">{symbol}</h6> 
+              <h6 class="left-align boldStyle" >${parseFloat(price).toFixed(2)}</h6>
+            </div>
+            <div class="col s12 m9">
+              <Line ref={symbol} data={chartData} options={options} height={130}/>
+            </div>
           </div>
         </li>);
   
