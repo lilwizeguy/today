@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import '../App.css';
-import WeatherCard from './WeatherCard';
-import LoadingIcon from '../LoadingIcon';
+
+import CardContainer from '../CardContainer';
 import ErrorCard from '../ErrorCard';
+import LoadingIcon from '../LoadingIcon';
+import WeatherCard from './WeatherCard';
+import CardType from '../constants';
 
 class WeatherCardContainer extends Component {
 
@@ -49,11 +52,9 @@ class WeatherCardContainer extends Component {
   
     componentWillMount() { 
       this.loadWeather();      
-  
     }
   
     render() {
-  
       var body = <LoadingIcon color="WEATHER" />
   
       if (this.state.permissionDenied) {
@@ -66,15 +67,8 @@ class WeatherCardContainer extends Component {
       }
       
       return (
-        <div>
-          <ul class="collection with-header z-depth-1">
-            <li class="collection-header orange white-text"><h5 class="left-align boldStyle">Weather</h5></li>
-            {body}
-          </ul>
-        </div>
-      )
+        <CardContainer cardTitle="Weather" cardBody={body} cardType={CardType.WEATHER}/>);
     }
-  
   }
 
   export default WeatherCardContainer;

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import '../App.css';
 import StocksCard from './StocksCard';
+import CardContainer from '../CardContainer'
 import {getStockUrls} from './api';
+import CardType from '../constants';
 
 class StocksCardContainer extends Component {
 
@@ -28,12 +30,8 @@ class StocksCardContainer extends Component {
     }); 
 
     return (
-      <div>
-        <ul className="collection with-header z-depth-1">
-            <li class="collection-header grey darken-1 white-text"><h5 class="left-align boldStyle">Stocks</h5></li>
-            {stocks}
-        </ul>
-      </div>);
+      <CardContainer cardTitle="Stocks" cardBody={stocks} cardType={CardType.STOCKS} />
+      );
   }
 }
 

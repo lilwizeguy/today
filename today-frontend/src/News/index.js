@@ -3,12 +3,12 @@ import '../App.css';
 import {getNews} from './api.js';
 import LoadingIcon from '../LoadingIcon';
 import NewsCard from './NewsCard';
-
+import CardContainer from '../CardContainer';
+import CardType from '../constants.js'
 
 class NewsCardContainer extends Component {
 
     constructor(props) {
-      
       super();
       
       this.state = {
@@ -29,9 +29,9 @@ class NewsCardContainer extends Component {
     }
   
     render() {
+      const cardType = CardType.NEWS;
   
-      let body = <LoadingIcon color="NEWS"/>;
-
+      let body = <LoadingIcon color={cardType} />;
 
       if (this.state.isLoading == false) {
         body = this.state.dataSource.map(value => {
@@ -40,13 +40,7 @@ class NewsCardContainer extends Component {
       }
   
       return (
-        <div>
-          <ul class="collection with-header z-depth-1">
-            <li class="collection-header left-align blue white-text"><h5 className="boldStyle">News</h5></li>
-            {body}
-          </ul>
-        </div>
-      );
+        <CardContainer cardTitle="News" cardBody={body} cardType={CardType.NEWS} />);
     }
   }
 

@@ -1,34 +1,40 @@
 import React, { Component } from 'react';
 import '../App.css';
 import Editor from 'react-pell';
+import CardContainer from '../CardContainer'
+import CardType from '../constants';
+
+class NotesEditor extends Component {
+
+  updateNotes(html) {
+    localStorage.setItem("notes", html);
+  }
+
+  loadNotes() {
+    const notes = localStorage.getItem("notes");
+
+    if (!notes) {
+      return "";
+    }
+
+    return notes;
+  }
+
+  render() {
+    return ( 
+    <li class="collection-item left-align">
+      <Editor defaultContent={this.loadNotes()} onChange={this.updateNotes.bind(this)} />
+    </li>);
+  }
+}
 
 class NotesCard extends Component {
-
-    updateNotes(html) {
-      localStorage.setItem("notes", html);
-    }
-  
-    loadNotes() {
-      const notes = localStorage.getItem("notes");
-  
-      if (!notes) {
-        return "";
-      }
-  
-      return notes;
-    }
   
     render() {
+      const editor = (<NotesEditor />);
       
       return (
-          <div>
-            <ul class="collection with-header z-depth-1">
-              <li class="collection-header teal white-text"><h5 class="left-align boldStyle">Notes</h5></li>
-              <li class="collection-item left-align">
-                <Editor defaultContent={this.loadNotes()} onChange={this.updateNotes.bind(this)} />
-              </li>
-            </ul>
-          </div>
+      <CardContainer cardTitle="Notes" cardBody ={editor} cardType={CardType.NOTES}/>
       );
     }
   }

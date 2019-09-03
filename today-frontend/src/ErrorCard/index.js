@@ -3,8 +3,6 @@ import '../App.css';
 
 
 class ErrorCard extends Component {
-
-
     render() {
 
         const {message, onTryAgain, color} = this.props;
@@ -15,7 +13,6 @@ class ErrorCard extends Component {
                 <a className={fullClassName} onClick={onTryAgain}>Try Again</a>
             </li>);
     }
-
 }
 
 export default ErrorCard;

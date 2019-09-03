@@ -1,28 +1,26 @@
 import React, { Component } from 'react';
+import CardType from '../constants';
 
 class LoadingIcon extends Component {
-
-
 
     colorForKeyword() {
       const key = this.props.color;
 
       let color = 'teal';
       switch(key) {
-        case "STOCKS" :
+        case CardType.STOCKS:
           color = 'black';
           break;
-        case "WEATHER" :
+        case CardType.WEATHER:
           color = 'orange';
           break;
-        case "NEWS" :
+        case CardType.NEWS:
           color = 'blue';
           break;
       }
 
       return color;
     }
-
 
     constructor() {
       super();
@@ -37,7 +35,6 @@ class LoadingIcon extends Component {
       })
     }
 
-
     render() {
 
       const inline = {
@@ -46,19 +43,6 @@ class LoadingIcon extends Component {
 
       const decorator = 'indeterminate ' + this.state.color;
       return (
-        // <div class="preloader-wrapper big active">
-        //   <div class="spinner-layer spinner-blue-only">
-        //     <div class="circle-clipper left">
-        //       <div class="circle"></div>
-        //     </div><div class="gap-patch">
-        //       <div class="circle"></div>
-        //     </div><div class="circle-clipper right">
-        //       <div class="circle"></div>
-        //     </div>
-        //   </div>
-        // </div>
-
-
         <div className="progress" style={inline}>
           <div className={decorator} ></div>
         </div>
