@@ -4,7 +4,7 @@ import CardType from '../constants';
 class LoadingIcon extends Component {
 
     colorForKeyword() {
-      const key = this.props.color;
+      const key = this.props.cardType;
 
       let color = 'teal';
       switch(key) {
@@ -22,13 +22,6 @@ class LoadingIcon extends Component {
       return color;
     }
 
-    constructor() {
-      super();
-      this.state = {
-        color : 'teal',
-      }
-    }
-
     componentDidMount() {
       this.setState({
         color : this.colorForKeyword(),
@@ -36,12 +29,11 @@ class LoadingIcon extends Component {
     }
 
     render() {
-
       const inline = {
         backgroundColor : 'lightGray',
       }
 
-      const decorator = 'indeterminate ' + this.state.color;
+      const decorator = 'indeterminate ' + this.colorForKeyword();
       return (
         <div className="progress" style={inline}>
           <div className={decorator} ></div>

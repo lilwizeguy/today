@@ -60,7 +60,7 @@ class WeatherCardContainer extends Component {
       if (this.state.permissionDenied) {
         const message = "Unable to display weather.  "
         + "Please try again or change the location preferences in your browser.";
-        body = <ErrorCard color="orange" message={message} onTryAgain={this.loadWeather.bind(this)}/>
+        body = <ErrorCard cardType={CardType.WEATHER} message={message} onTryAgain={this.loadWeather.bind(this)}/>
       }
       else if (this.state.hasLocation) {
         body = <WeatherCard lat={this.state.lat} lon={this.state.lon} />

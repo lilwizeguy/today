@@ -4,6 +4,7 @@ import LoadingIcon from '../LoadingIcon';
 import {Line} from 'react-chartjs-2';
 import {getStocks, timeseriesRequest} from './api';
 import ErrorCard from '../ErrorCard';
+import CardType from '../constants';
 
 class StocksCard extends Component {
 
@@ -15,7 +16,6 @@ class StocksCard extends Component {
         isLoading : true,
       };
     }
-
 
     loadStocks() {
       const outerState = this;
@@ -38,12 +38,10 @@ class StocksCard extends Component {
           err : true,
           isLoading : false,
         })
-      });  
-
+      });
     }
   
     componentWillMount() {
-
       this.loadStocks();
     }
   
@@ -51,13 +49,13 @@ class StocksCard extends Component {
   
       if (this.state.isLoading) {
         return (<li class="collection-item heightStyle"> 
-          <LoadingIcon color="STOCKS" />
+          <LoadingIcon cardType={CardType.STOCKS}/>
           </li>);
       }
   
       if (this.state.err) {
         const message = "Unable to display stock information.  Please try again.";       
-        return <ErrorCard color="black" message={message} onTryAgain={this.loadStocks.bind(this)}/>
+        return <ErrorCard cardType={CardType.STOCKS} message={message} onTryAgain={this.loadStocks.bind(this)}/>
       }
 
       const {symbol, price, labels, timeseries } = this.state;

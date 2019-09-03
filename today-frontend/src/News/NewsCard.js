@@ -4,7 +4,6 @@ import '../App.css';
 class NewsCard extends Component {
     
     render() {
-
         const {url, title, sourceName, description} = this.props.data;
 
         return(<li key={url} className="collection-item left-align">

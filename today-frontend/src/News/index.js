@@ -31,7 +31,7 @@ class NewsCardContainer extends Component {
     render() {
       const cardType = CardType.NEWS;
   
-      let body = <LoadingIcon color={cardType} />;
+      let body = <LoadingIcon cardType={cardType} />;
 
       if (this.state.isLoading == false) {
         body = this.state.dataSource.map(value => {
